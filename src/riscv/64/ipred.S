@@ -32,7 +32,6 @@
 //                       const int width, const int height, const int a,
 //                       const int max_width, const int max_height)
 function ipred_v_8bpc_rvv, export=1, ext="v,zba"
-    csrw vxrm, zero
     addi a2, a2, 1
     vsetvli t0, a3, e8, m1, ta, ma
     bne t0, a3, 3f  // Go to slow path - whole row doesn't fit in regsiter
