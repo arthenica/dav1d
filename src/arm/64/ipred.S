@@ -1848,7 +1848,7 @@ function ipred_reverse_8bpc_neon, export=1
         ret
 endfunc
 
-const increments
+const increments, align=4
         .short          0,  1,  2,  3,  4,  5,  6,  7
         .short          8,  9,  10, 11, 12, 13, 14, 15
 endconst
@@ -2585,8 +2585,7 @@ function ipred_z2_fill2_8bpc_neon, export=1
         mov             w8,  #(2 << 6)            // xpos = 2 << 6
         sub             w8,  w8,  w6              // xpos -= dx
 
-        movrel          x11, increments
-        ld1             {v31.8h},  [x11]          // increments
+        ldrel           q31, x11, increments
         neg             w7,  w7                   // -dy
         b.eq            80f
 
@@ -2830,8 +2829,7 @@ function ipred_z2_fill3_8bpc_neon, export=1
         mov             w8,  #(1 << 6)            // xpos = 1 << 6
         sub             w8,  w8,  w6              // xpos -= dx
 
-        movrel          x11, increments
-        ld1             {v31.8h},  [x11]          // increments
+        ldrel           q31, x11, increments
         neg             w7,  w7                   // -dy
         b.eq            80f
 
@@ -3086,9 +3084,8 @@ function ipred_z3_fill1_8bpc_neon, export=1
         ldrsw           x9,  [x8, w9, uxtw #2]
         add             x10, x2,  w6,  uxtw       // left[max_base_y]
         add             x8,  x8,  x9
-        movrel          x11, increments
+        ldrel           q30, x11, increments
         ld1r            {v31.16b}, [x10]          // padding
-        ld1             {v30.8h},  [x11]          // increments
         mov             w7,  w5
         b.gt            L(ipred_z3_fill1_large_h16)
         br              x8
@@ -3575,9 +3572,8 @@ endfunc
 function ipred_z3_fill2_8bpc_neon, export=1
         cmp             w3,  #8
         add             x10, x2,  w6,  uxtw       // left[max_base_y]
-        movrel          x11, increments
+        ldrel           q30, x11, increments
         ld1r            {v31.16b}, [x10]          // padding
-        ld1             {v30.8h},  [x11]          // increments
         b.eq            80f
 
 40:     // w == 4

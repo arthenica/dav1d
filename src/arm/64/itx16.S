@@ -424,15 +424,13 @@ endfunc
 
 function inv_dct_4s_x4_neon
         AARCH64_VALID_CALL_TARGET
-        movrel          x16, idct_coeffs
-        ld1             {v0.4s}, [x16]
+        ldrel           q0,  x16, idct_coeffs
         idct_4          v16, v17, v18, v19
         ret
 endfunc
 
 .macro iadst_4x4 o0, o1, o2, o3
-        movrel          x16, iadst4_coeffs
-        ld1             {v0.4s}, [x16]
+        ldrel           q0,  x16, iadst4_coeffs
 
         sub             v3.4s,   v16.4s,  v18.4s
         mul             v4.4s,   v16.4s,  v0.s[0]
@@ -2971,8 +2969,7 @@ function inv_dct64_step1_neon
 endfunc
 
 function inv_dct64_step2_neon
-        movrel          x16, idct_coeffs
-        ld1             {v0.4s}, [x16]
+        ldrel           q0,  x16, idct_coeffs
 1:
         // t32a/33/34a/35/60/61a/62/63a
         // t56a/57/58a/59/36/37a/38/39a
