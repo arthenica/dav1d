@@ -2128,13 +2128,11 @@ function ipred_z2_fill1_8bpc_neon, export=1
         stp             d12, d13, [sp, #0x20]
         stp             d14, d15, [sp, #0x30]
 
-        add             x11, x11, #16             // increments
-
         dup             v18.8h,  w7               // -dy
         movi            v17.16b, #1
         add             x3,  x3,  #1              // Skip past left[0]
 
-        ld1             {v14.8h}, [x11]           // {8,9,10,11,12,13,14,15}
+        ldr             q14, [x11, #16]           // {8,9,10,11,12,13,14,15}
 
         mul             v16.8h,  v31.8h,  v18.8h  // {0,1,2,3,4,5,6,7}* -dy
         mul             v19.8h,  v14.8h,  v18.8h  // {8,9,10,11,12,13,14,15}* -dy
@@ -2307,12 +2305,10 @@ function ipred_z2_fill1_8bpc_neon, export=1
         stp             d12, d13, [sp, #0x20]
         stp             d14, d15, [sp, #0x30]
 
-        add             x11, x11, #16             // increments
-
         dup             v25.8h,  w7               // -dy
         add             x3,  x3,  #1              // Skip past left[0]
 
-        ld1             {v14.8h}, [x11]           // {8,9,10,11,12,13,14,15}
+        ldr             q14, [x11, #16]           // {8,9,10,11,12,13,14,15}
 
         add             x13, x0,  x1              // alternating row
         lsl             x1,  x1,  #1              // stride *= 2

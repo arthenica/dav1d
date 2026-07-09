@@ -1847,8 +1847,7 @@ def_fns_816 16, 8
 
 function inv_dct32_odd_8h_x16_neon, export=1
         movrel          x16, idct_coeffs, 2*16
-        ld1             {v0.8h, v1.8h}, [x16]
-        sub             x16, x16, #2*16
+        ldp             q0,  q1,  [x16], #-2*16
 
         smull_smlsl     v2,  v3,  v16, v31, v0.h[0], v0.h[1], .8h // -> t16a
         smull_smlal     v4,  v5,  v16, v31, v0.h[1], v0.h[0], .8h // -> t31a
